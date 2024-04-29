@@ -1,0 +1,25 @@
+path: C:\Users\rewan\Downloads\GP\B2\data
+train: images\train
+val: images\train
+
+# Classes
+names:
+- EAN13
+- PDF417
+- DataMatrix
+- QRCode
+- RoyalMailCode
+- Kix
+- Code128
+- UPCA
+- Aztec
+- Interleaved25
+- JapanPost
+- Code39
+- Postnet
+- UCC128
+- IntelligentMail
+- 2-Digit
+- EAN8
+- IATA25
+nc: 18
