@@ -25,9 +25,9 @@ def load_barcode_model(model_path):
     model = YOLO(model_path)
     return model
 
-def process_frame(frame, model, threshold=0.5):
+def Barcodeframe(frame, model, threshold=0.5):
     """Perform object detection and barcode decoding on a single frame."""
-    results = model(frame)[0]
+    results = model(frame, verbose=False)[0]
     
     for result in results.boxes.data.tolist():
         x1, y1, x2, y2, score, class_id = result
@@ -43,7 +43,7 @@ def process_frame(frame, model, threshold=0.5):
                 if barcode in data:
                     text = data[barcode]
         except:
-            print("Barcode decoding error")
+            pass
 
         if score > threshold:
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)

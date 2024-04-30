@@ -25,7 +25,7 @@ def load_fire_model(model_path):
     model = YOLO(model_path)
     return model
 
-def detect_fire(frame, model, classnames=['fire'], threshold=0.5):
+def fireframe(frame, model, classnames=['fire'], threshold=0.5):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True)
 
@@ -44,7 +44,7 @@ def detect_fire(frame, model, classnames=['fire'], threshold=0.5):
     
     return frame
 
-def process_fire_video():
+def FirePredictor():
     """Process video frames for fire detection."""
     args = parse_arguments()
     video_path = args.get("video", None)
