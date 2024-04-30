@@ -63,7 +63,7 @@ def FirePredictor():
         if not ret:
             break
         
-        processed_frame = detect_fire(frame, model)
+        processed_frame = fireframe(frame, model)
         cv2.imshow("Fire Detection", processed_frame)
         
         if cv2.waitKey(1) & 0xFF == 27:  # Exit on 'Esc' key
@@ -73,4 +73,4 @@ def FirePredictor():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    process_fire_video()
+    FirePredictor()

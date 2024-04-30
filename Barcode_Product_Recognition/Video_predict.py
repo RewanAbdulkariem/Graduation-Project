@@ -70,7 +70,7 @@ def VideoPredictor():
         if not ret:
             break
         
-        processed_frame = process_frame(frame, model)
+        processed_frame = Barcodeframe(frame, model)
         cv2.imshow("Frame", processed_frame)
         
         if cv2.waitKey(1) & 0xFF == 27:  # Exit on 'Esc' key
