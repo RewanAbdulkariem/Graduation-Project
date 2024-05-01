@@ -27,7 +27,7 @@ def load_fire_model(model_path):
 
 def fireframe(frame, model, classnames=['fire'], threshold=0.5):
     """Detect fire in a single frame and annotate with bounding boxes."""
-    results = model(frame, stream=True)
+    results = model(frame, stream=True, verbose=False)
 
     for info in results:
         boxes = info.boxes

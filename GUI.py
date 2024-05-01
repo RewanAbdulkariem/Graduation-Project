@@ -12,10 +12,9 @@ from Barcode_Product_Recognition.Video_predict import Barcodeframe
 from Fire_Detection.fire_detection import fireframe
 from ultralytics import YOLO
 
-video_path = None               # Global variable to be used in both classes 
-selected_model = "Barcode Recognition"
-safety_models = ['Vest and Helmet Detection', 'Crowd Detection', 'Fire Detection']
-production_models = ['Defects Classification', 'Defect Detection', 'Barcode Recognition']
+# Global variable to be used in both classes 
+video_path = None
+selected_model = 'Vest and Helmet Detection'
 
 class MainWindow(QMainWindow):
     """Main window class for the Object Detection and Barcode Reader application."""
@@ -27,6 +26,9 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         """Initialize the user interface components."""
+        self.tabIndex = 1
+        self.tabWidget.currentChanged.connect(self.on_tab_changed)
+
         self.Pc_VideoButton.clicked.connect(self.openFile)
         self.Pc_LiveButton.clicked.connect(self.openCamera)
 
@@ -41,10 +43,18 @@ class MainWindow(QMainWindow):
         self.video_thread = VideoThread()
         self.video_thread.frame_signal.connect(self.displayFrame)
 
+    def on_tab_changed(self, index):
+        # Handle tab change event
+        self.tabIndex = index
+        self.decide_model()
+
     def decide_model(self):
         global selected_model
 
-        selected_model =  self.Pc_modelBox.currentText()
+        if self.tabIndex == 1:
+            selected_model =  self.Sf_modelBox.currentText()
+        elif self.tabIndex == 2:
+            selected_model =  self.Pc_modelBox.currentText()
         self.start_video_processing()
 
     def openFile(self):
@@ -79,12 +89,12 @@ class MainWindow(QMainWindow):
     @Slot(QImage)
     def displayFrame(self, image):
         """Display the processed video frame on the QLabel."""
-        global selected_model, safety_models, production_models
+        global selected_model
 
         pixmap = QPixmap.fromImage(image)
-        if selected_model in safety_models:
+        if self.tabIndex == 1:
             self.Sf_label.setPixmap(pixmap)
-        elif selected_model in production_models:
+        if self.tabIndex == 2:
             self.Pc_label.setPixmap(pixmap)
 
 class VideoThread(QThread):
