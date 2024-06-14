@@ -25,7 +25,7 @@ def load_fire_model(model_path):
     model = YOLO(model_path)
     return model
 
-def fireframe(frame, model, classnames=['fire'], threshold=0.5):
+def fireframe(frame, model, classnames=['fire'], threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
 
