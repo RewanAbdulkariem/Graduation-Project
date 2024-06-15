@@ -5,13 +5,18 @@ import sys
 import os
 import cv2
 import imutils
+
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import QThread, pyqtSignal as Signal, pyqtSlot as Slot
+
 from Barcode_Product_Recognition.Barcode_predict import Barcodeframe
 from Fire_Detection.fire_detection import fireframe
 from Safety_of_workers.Safety import Safety_frame
+from Crowd_Detection.crowd_detection import load_crowd_model, load_class_list, detect_and_track
+from Crowd_Detection.tracker import Tracker
+
 from ultralytics import YOLO
 
 class MainWindow(QMainWindow):
@@ -95,6 +100,9 @@ class VideoThread(QThread):
         self.selected_model = selected_model
         self.helmet_vest_model = YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt')
         self.drowsy_model = YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')
+        self.crowd_model = load_crowd_model(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt')
+        self.class_list = load_class_list(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt')
+        self.tracker = Tracker()
         self.cap = None
         self.model = None
         self.running = True
@@ -136,8 +144,7 @@ class VideoThread(QThread):
             frame = Safety_frame(frame, self.drowsy_model, ['drowsy', 'awake', 'fainted'])
             return frame
         elif self.selected_model == 'Crowd Detection':
-            # Add implementation for Crowd Detection
-            pass
+            return detect_and_track(frame, self.crowd_model, self.class_list, self.tracker)
         elif self.selected_model == 'Fire Detection':
             return fireframe(frame, self.model)
 
@@ -170,13 +177,10 @@ class VideoThread(QThread):
             pass
         elif self.selected_model == 'Barcode Recognition':
             return os.path.join('.', 'Barcode_Product_Recognition', 'runs', 'detect', 'train', 'weights', 'last.pt')
-        elif self.selected_model == 'Safety of workers':
-            # model passed in another place
-            pass
-        elif self.selected_model == 'Crowd Detection':
-            pass
         elif self.selected_model == 'Fire Detection':
             return os.path.join('.', 'Fire_Detection', 'fire.pt')
+        else:
+            return None
 
 def main():
     """Main function to initialize the application."""
