@@ -14,7 +14,7 @@ from PyQt5.QtCore import QThread, pyqtSignal as Signal, pyqtSlot as Slot
 from Barcode_Product_Recognition.Barcode_predict import Barcodeframe
 from Fire_Detection.fire_detection import fireframe
 from Safety_of_workers.Safety import Safety_frame
-from Crowd_Detection.crowd_detection import load_crowd_model, load_class_list, detect_and_track
+from Crowd_Detection.crowd_detection import load_class_list, detect_and_track
 from Crowd_Detection.tracker import Tracker
 
 from ultralytics import YOLO
@@ -100,7 +100,7 @@ class VideoThread(QThread):
         self.selected_model = selected_model
         self.helmet_vest_model = YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt')
         self.drowsy_model = YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')
-        self.crowd_model = load_crowd_model(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt')
+        self.crowd_model = YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt')
         self.class_list = load_class_list(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt')
         self.tracker = Tracker()
         self.cap = None
@@ -176,7 +176,7 @@ class VideoThread(QThread):
             # Return path to Defect Detection model
             pass
         elif self.selected_model == 'Barcode Recognition':
-            return os.path.join('.', 'Barcode_Product_Recognition', 'runs', 'detect', 'train', 'weights', 'last.pt')
+            return os.path.join('.', 'Barcode_Product_Recognition', 'last.pt')
         elif self.selected_model == 'Fire Detection':
             return os.path.join('.', 'Fire_Detection', 'fire.pt')
         else:
