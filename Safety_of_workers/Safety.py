@@ -20,11 +20,6 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def load_model(model_path):
-    """Load YOLO detection model."""
-    model = YOLO(model_path)
-    return model
-
 def Safety_frame(frame, model, classnames, threshold=50):
     """Detect objects in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
@@ -59,8 +54,8 @@ def ObjectPredictor():
     helmet_vest_classnames =['fall', 'Safty-Vest', 'Helmet', 'without_Helmet', 'without_Safty-Vest']
     drowsy_classnames = ['drowsy', 'awake', 'fainted']
     
-    helmet_vest_model = load_model(helmet_vest_model_path)
-    drowsy_model = load_model(drowsy_model_path)
+    helmet_vest_model = YOLO(helmet_vest_model_path)
+    drowsy_model = YOLO(drowsy_model_path)
     cap = initialize_video_capture(video_path)
 
     if not cap.isOpened():

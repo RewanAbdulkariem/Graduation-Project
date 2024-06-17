@@ -20,11 +20,6 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def load_safety_model(model_path):
-    """Load fire detection model."""
-    model = YOLO(model_path)
-    return model
-
 def Safetyframe(frame, model, threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
@@ -52,7 +47,7 @@ def SafetyPredictor():
 
     model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'
     
-    model = load_safety_model(model_path)
+    model = YOLO(model_path)
     cap = initialize_video_capture(video_path)
 
     if not cap.isOpened():

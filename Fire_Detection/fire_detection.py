@@ -20,11 +20,6 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def load_fire_model(model_path):
-    """Load fire detection model."""
-    model = YOLO(model_path)
-    return model
-
 def fireframe(frame, model, classnames=['fire'], threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
@@ -36,8 +31,7 @@ def fireframe(frame, model, classnames=['fire'], threshold=50):
             confidence = math.ceil(confidence * 100)
             Class = int(box.cls[0])
             if confidence > threshold:
-                x1, y1, x2, y2 = box.xyxy[0]
-                x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
                 cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%', [x1 + 8, y1 + 100],
                                    scale=1.5, thickness=2)
@@ -51,7 +45,7 @@ def FirePredictor():
 
     model_path = r'C:\Users\rewan\Downloads\GP\B2\Fire_Detection\fire.pt'
     
-    model = load_fire_model(model_path)
+    model = YOLO(model_path)
     cap = initialize_video_capture(video_path)
 
     if not cap.isOpened():

@@ -17,6 +17,8 @@ from Safety_of_workers.Safety import Safety_frame
 from Crowd_Detection.crowd_detection import load_class_list, detect_and_track
 from Crowd_Detection.tracker import Tracker
 
+from Defects_Detection.defect_detection import defectframe
+from Defects_Classification.defect_class import defectclassframe
 from ultralytics import YOLO
 
 class MainWindow(QMainWindow):
@@ -131,12 +133,10 @@ class VideoThread(QThread):
 
     def prediction(self, frame):
         """Perform prediction according to the selected model."""
-        if self.selected_model == 'Defects Classification':
-            # Add implementation for Defects Classification
-            pass
+        if self.selected_model == 'Defects Classifictaion':
+            return defectclassframe(frame, self.model)
         elif self.selected_model == 'Defect Detection':
-            # Add implementation for Defect Detection
-            pass
+            return defectframe(frame, self.model)
         elif self.selected_model == 'Barcode Recognition':
             return Barcodeframe(frame, self.model)
         elif self.selected_model == 'Safety of workers':
@@ -160,6 +160,7 @@ class VideoThread(QThread):
     def load_model(self):
         """Load the appropriate model based on the selected model."""
         model_path = self.get_model_path()
+        print(model_path)
         if model_path:
             self.model = YOLO(model_path)
         if self.video_path is None:
@@ -169,12 +170,11 @@ class VideoThread(QThread):
 
     def get_model_path(self):
         """Get the model path based on the selected model."""
-        if self.selected_model == 'Defects Classification':
-            # Return path to Defects Classification model
-            pass
+        if self.selected_model == 'Defects Classifictaion':
+            print("get into if statement")
+            return os.path.join('.', 'Defects_Classification', 'defectClassification.pt')
         elif self.selected_model == 'Defect Detection':
-            # Return path to Defect Detection model
-            pass
+            return os.path.join('.', 'Defects_Detection', 'defectdetection.pt')
         elif self.selected_model == 'Barcode Recognition':
             return os.path.join('.', 'Barcode_Product_Recognition', 'last.pt')
         elif self.selected_model == 'Fire Detection':

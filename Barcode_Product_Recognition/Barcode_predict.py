@@ -20,16 +20,6 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def load_barcode_model(model_path):
-    """Load YOLO object detection model."""
-    try:
-        model = YOLO(model_path)
-    except Exception as e:
-        print(f"Error loading model: {e}")
-        model = None
-
-    return model
-
 def Barcodeframe(frame, model, threshold=0.5):
     """Perform object detection and barcode decoding on a single frame."""
     results = model(frame, verbose=False)[0]
@@ -63,7 +53,7 @@ def VideoPredictor():
     video_path = args.get("video", None)
     
     model_path = r"C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt"
-    model = load_barcode_model(model_path)
+    model = YOLO(model_path)
     
     cap = initialize_video_capture(video_path)
     if not cap.isOpened():

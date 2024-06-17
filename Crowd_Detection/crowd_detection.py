@@ -19,11 +19,6 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def load_crowd_model(model_path):
-    """Load crowd detection model."""
-    model = YOLO(model_path)
-    return model
-
 def load_class_list(class_file_path):
     """Load class list from file."""
     class_list = []
@@ -66,7 +61,7 @@ def CrowdDetector():
     model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'
 
     class_list = load_class_list(class_file_path)
-    model = load_crowd_model(model_path)
+    model = YOLO(model_path)
     cap = initialize_video_capture(video_path)
     tracker = Tracker()
 
