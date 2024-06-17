@@ -100,14 +100,21 @@ class VideoThread(QThread):
         super().__init__()
         self.video_path = video_path
         self.selected_model = selected_model
-        self.helmet_vest_model = YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt')
-        self.drowsy_model = YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')
-        self.crowd_model = YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt')
         self.class_list = load_class_list(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt')
         self.tracker = Tracker()
         self.cap = None
         self.model = None
         self.running = True
+        self.init_models()
+
+    def init_models(self):
+        self.model_map = {'Safety of workers': [YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'),
+                                                YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')],
+            'Crowd Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'),
+            'Defect Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Detection\defectdetection.pt'),
+            'Defects Classifictaion': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Classification\defectClassification.pt'),
+            'Barcode Recognition': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt'),
+            'Fire Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Fire_Detection\fire.pt')}
 
     def run(self):
         """Run the video processing thread."""
@@ -140,11 +147,11 @@ class VideoThread(QThread):
         elif self.selected_model == 'Barcode Recognition':
             return Barcodeframe(frame, self.model)
         elif self.selected_model == 'Safety of workers':
-            frame = Safety_frame(frame, self.helmet_vest_model, ['fall', 'Safty-Vest', 'Helmet', 'without_Helmet', 'without_Safty-Vest'])
-            frame = Safety_frame(frame, self.drowsy_model, ['drowsy', 'awake', 'fainted'])
+            frame = Safety_frame(frame, self.model[0], ['fall', 'Safty-Vest', 'Helmet', 'without_Helmet', 'without_Safty-Vest'])
+            frame = Safety_frame(frame, self.model[1], ['drowsy', 'awake', 'fainted'])
             return frame
         elif self.selected_model == 'Crowd Detection':
-            return detect_and_track(frame, self.crowd_model, self.class_list, self.tracker)
+            return detect_and_track(frame, self.model, self.class_list, self.tracker)
         elif self.selected_model == 'Fire Detection':
             return fireframe(frame, self.model)
 
@@ -152,35 +159,20 @@ class VideoThread(QThread):
         """Convert an OpenCV image to a QImage suitable for displaying."""
         if image is None:
             return QImage()
-        image = imutils.resize(image, width=640)
+        image = cv2.resize(image, (640, 480))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = QImage(image, image.shape[1], image.shape[0], QImage.Format_RGB888)
         return image
 
     def load_model(self):
         """Load the appropriate model based on the selected model."""
-        model_path = self.get_model_path()
-        print(model_path)
-        if model_path:
-            self.model = YOLO(model_path)
+        model = self.model_map.get(self.selected_model)
+        if model:
+            self.model = model
         if self.video_path is None:
             self.cap = cv2.VideoCapture(0)  # Use default camera
         else:
             self.cap = cv2.VideoCapture(self.video_path)
-
-    def get_model_path(self):
-        """Get the model path based on the selected model."""
-        if self.selected_model == 'Defects Classifictaion':
-            print("get into if statement")
-            return os.path.join('.', 'Defects_Classification', 'defectClassification.pt')
-        elif self.selected_model == 'Defect Detection':
-            return os.path.join('.', 'Defects_Detection', 'defectdetection.pt')
-        elif self.selected_model == 'Barcode Recognition':
-            return os.path.join('.', 'Barcode_Product_Recognition', 'last.pt')
-        elif self.selected_model == 'Fire Detection':
-            return os.path.join('.', 'Fire_Detection', 'fire.pt')
-        else:
-            return None
 
 def main():
     """Main function to initialize the application."""
