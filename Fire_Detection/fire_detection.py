@@ -20,10 +20,10 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def fireframe(frame, model, classnames=['fire'], threshold=50):
+def fireframe(frame, model, threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
-
+    classnames = ['fire']
     for info in results:
         boxes = info.boxes
         for box in boxes:

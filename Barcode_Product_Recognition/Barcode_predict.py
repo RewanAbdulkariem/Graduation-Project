@@ -20,7 +20,7 @@ def initialize_video_capture(video_path=None):
         cap = cv2.VideoCapture(video_path)
     return cap
 
-def Barcodeframe(frame, model, threshold=0.5):
+def Barcodeframe(frame, model, threshold=50):
     """Perform object detection and barcode decoding on a single frame."""
     results = model(frame, verbose=False)[0]
     
@@ -40,7 +40,7 @@ def Barcodeframe(frame, model, threshold=0.5):
             #print(f"Error decoding barcode: {e}")
             pass
 
-        if score > threshold:
+        if score > (threshold/100):
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
             cv2.putText(frame, text.upper(), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3, cv2.LINE_AA)

@@ -2,7 +2,7 @@ import cv2
 import math
 from ultralytics import YOLO
 
-def defectclassframe(frame, model, threshold=20):
+def defectclassframe(frame, model, threshold=50):
     # Perform inference on the frame
     results = model(frame, stream=True, verbose=False)
 
