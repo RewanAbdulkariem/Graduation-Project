@@ -34,7 +34,7 @@ def fireframe(frame, model, threshold=50):
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
                 cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%', [x1 + 8, y1 + 100],
-                                   scale=1.5, thickness=2)
+                                   scale=3, thickness=3, colorR=(0, 0, 0))
     
     return frame
 

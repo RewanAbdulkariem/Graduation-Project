@@ -37,9 +37,9 @@ def Safety_frame(frame, model, classnames, threshold=50):
             elif confidence > threshold:
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%', [x1, y1 - 10],
-                                   scale=1, thickness=2, colorR=(0, 0, 255))
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
+                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1 + 100],
+                                   scale=3, thickness=3, colorR=(0, 0, 0))
     
     return frame
 
