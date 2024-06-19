@@ -1,10 +1,16 @@
-import os
+import os, sys
 import cv2
 import cvzone
 import math
 import argparse
 from ultralytics import YOLO
+from time import time
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from email_safety import send_email_async
 
+previous_detection = None
+last_email_time = 0
+email_interval = 60
 def parse_arguments():
     """Parse command-line arguments."""
     ap = argparse.ArgumentParser()
@@ -22,6 +28,8 @@ def initialize_video_capture(video_path=None):
 
 def Safety_frame(frame, model, classnames, threshold=50):
     """Detect objects in a single frame and annotate with bounding boxes."""
+    global previous_detection, last_email_time
+
     results = model(frame, stream=True, verbose=False)
 
     for info in results:
@@ -40,7 +48,13 @@ def Safety_frame(frame, model, classnames, threshold=50):
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
                 cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1 + 100],
                                    scale=3, thickness=3, colorR=(0, 0, 0))
-    
+                current_detection = classnames[Class]
+                if current_detection != previous_detection:
+                    current_time = time()
+                    if current_time - last_email_time >= email_interval:
+                        send_email_async(f"WARNING: {classnames[Class]} detected with {confidence}% confidence!")
+                        last_email_time = current_time
+                previous_detection = current_detection
     return frame
 
 def ObjectPredictor():

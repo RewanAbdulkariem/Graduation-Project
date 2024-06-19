@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1169</width>
-    <height>730</height>
+    <width>1695</width>
+    <height>972</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,8 +39,8 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>1141</width>
-      <height>711</height>
+      <width>1671</width>
+      <height>961</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -94,7 +94,7 @@ background-color: rgb(245,245,245);
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -1786,8 +1786,8 @@ color: rgb(255, 255, 255);</string>
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>750</width>
-        <height>561</height>
+        <width>1301</width>
+        <height>780</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1799,10 +1799,10 @@ color: rgb(255, 255, 255);</string>
       <widget class="QLabel" name="Sf_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>40</y>
-         <width>700</width>
-         <height>500</height>
+         <width>1280</width>
+         <height>720</height>
         </rect>
        </property>
        <property name="text">
@@ -1813,8 +1813,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Sf_Result_statics">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>190</y>
+        <x>1320</x>
+        <y>200</y>
         <width>331</width>
         <height>231</height>
        </rect>
@@ -1829,8 +1829,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Sf_confidence">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>90</y>
+        <x>1320</x>
+        <y>100</y>
         <width>331</width>
         <height>81</height>
        </rect>
@@ -1883,10 +1883,10 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Sf_VideoButton">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>580</y>
-        <width>240</width>
-        <height>50</height>
+        <x>600</x>
+        <y>810</y>
+        <width>391</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
@@ -1915,46 +1915,11 @@ color: rgb(255, 255, 255);</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="Sf_ImageButton">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>580</y>
-        <width>251</width>
-        <height>50</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>  Image</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>icons/Image.webp</normaloff>icons/Image.webp</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>25</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="Sf_StartButton">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>460</y>
+        <x>1320</x>
+        <y>470</y>
         <width>160</width>
         <height>50</height>
        </rect>
@@ -2187,8 +2152,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Sf_StopButton">
       <property name="geometry">
        <rect>
-        <x>960</x>
-        <y>460</y>
+        <x>1500</x>
+        <y>470</y>
         <width>160</width>
         <height>50</height>
        </rect>
@@ -2222,8 +2187,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Sf_model">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>10</y>
+        <x>1320</x>
+        <y>20</y>
         <width>331</width>
         <height>71</height>
        </rect>
@@ -2263,10 +2228,10 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Sf_LiveButton">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>580</y>
-        <width>240</width>
-        <height>50</height>
+        <x>219</x>
+        <y>810</y>
+        <width>371</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
@@ -2313,10 +2278,10 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Pc_view">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>9</x>
         <y>10</y>
-        <width>750</width>
-        <height>560</height>
+        <width>1301</width>
+        <height>780</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -2328,10 +2293,10 @@ color: rgb(255, 255, 255);</string>
       <widget class="QLabel" name="Pc_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>40</y>
-         <width>700</width>
-         <height>500</height>
+         <width>1280</width>
+         <height>720</height>
         </rect>
        </property>
        <property name="text">
@@ -2342,8 +2307,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Pc_confidence">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>90</y>
+        <x>1320</x>
+        <y>100</y>
         <width>331</width>
         <height>81</height>
        </rect>
@@ -2390,8 +2355,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Pc_Results_statics">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>180</y>
+        <x>1320</x>
+        <y>190</y>
         <width>331</width>
         <height>261</height>
        </rect>
@@ -2406,8 +2371,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QGroupBox" name="Pc_model">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>10</y>
+        <x>1320</x>
+        <y>20</y>
         <width>331</width>
         <height>71</height>
        </rect>
@@ -2447,8 +2412,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Pc_StopButton">
       <property name="geometry">
        <rect>
-        <x>960</x>
-        <y>460</y>
+        <x>1500</x>
+        <y>470</y>
         <width>160</width>
         <height>50</height>
        </rect>
@@ -2482,8 +2447,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Pc_StartButton">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>460</y>
+        <x>1320</x>
+        <y>470</y>
         <width>160</width>
         <height>50</height>
        </rect>
@@ -2713,48 +2678,13 @@ color: rgb(255, 255, 255);</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="Pc_ImageButton">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>580</y>
-        <width>240</width>
-        <height>50</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>  Image</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>icons/Image.webp</normaloff>icons/Image.webp</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>25</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="Pc_VideoButton">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>580</y>
-        <width>240</width>
-        <height>50</height>
+        <x>580</x>
+        <y>820</y>
+        <width>381</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
@@ -2786,10 +2716,10 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Pc_LiveButton">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>580</y>
-        <width>240</width>
-        <height>50</height>
+        <x>190</x>
+        <y>820</y>
+        <width>381</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
@@ -2818,33 +2748,6 @@ color: rgb(255, 255, 255);</string>
        <bool>false</bool>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="alerts">
-     <attribute name="icon">
-      <iconset>
-       <normaloff>icons/alert.png</normaloff>icons/alert.png</iconset>
-     </attribute>
-     <attribute name="title">
-      <string>Alerts </string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="EmployeMonitoring">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTipDuration">
-      <number>72</number>
-     </property>
-     <attribute name="icon">
-      <iconset>
-       <normaloff>icons/performance.png</normaloff>icons/performance.png</iconset>
-     </attribute>
-     <attribute name="title">
-      <string>Employe Monitoring</string>
-     </attribute>
     </widget>
    </widget>
   </widget>

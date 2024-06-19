@@ -190,6 +190,7 @@ class VideoThread(QThread):
             if processed_frame is not None:
                 processed_frame = self.cvimage_to_label(processed_frame)
                 self.frame_signal.emit(processed_frame)
+            QThread.msleep(1)
 
         self.cap.release()
 
@@ -226,7 +227,6 @@ class VideoThread(QThread):
         """Convert an OpenCV image to a QImage suitable for displaying."""
         if image is None:
             return QImage()
-        image = cv2.resize(image, (640, 480))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = QImage(image, image.shape[1], image.shape[0], QImage.Format_RGB888)
         return image
@@ -247,6 +247,8 @@ class VideoThread(QThread):
         if not self.cap.isOpened():
             print(f"Error: Failed to open video source '{self.video_path}'.")
             self.running = False
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 def main():
     """Main function to initialize the application."""
