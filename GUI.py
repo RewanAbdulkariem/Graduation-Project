@@ -157,22 +157,21 @@ class VideoThread(QThread):
         self.paused = False
         self.class_list = load_class_list(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt')
         self.tracker = Tracker()
-        self.init_models()
+        self.model_map = {
+            'Safety of workers': [YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'),
+                                        YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')],
+            'Crowd Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'),
+            'Defect Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Detection\defectdetection.pt'),
+            'Defects Classifictaion': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Classification\defectClassification.pt'),
+            'Barcode Recognition': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt'),
+            'Fire Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Fire_Detection\fire.pt')
+    }
 
     def update_parameters(self, video_path, selected_model, threshold):
         """Update the thread parameters."""
         self.video_path = video_path
         self.selected_model = selected_model
         self.threshold = threshold
-
-    def init_models(self):
-        self.model_map = {'Safety of workers': [YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'),
-                                                YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')],
-            'Crowd Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'),
-            'Defect Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Detection\defectdetection.pt'),
-            'Defects Classifictaion': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Classification\defectClassification.pt'),
-            'Barcode Recognition': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt'),
-            'Fire Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Fire_Detection\fire.pt')}
 
     def run(self):
         """Run the video processing thread."""
@@ -182,10 +181,13 @@ class VideoThread(QThread):
 
         while self.running:
             if self.paused:
+                self.msleep(100)
                 continue
+
             ret, frame = self.cap.read()
             if not ret:
                 break
+
             processed_frame = self.prediction(frame)
             if processed_frame is not None:
                 processed_frame = self.cvimage_to_label(processed_frame)
@@ -237,13 +239,13 @@ class VideoThread(QThread):
         if not model:
             print(f"Error: Model for '{self.selected_model}' not found.")
             return
-        
+
         self.model = model
         if self.video_path is None:
             self.cap = cv2.VideoCapture(0)  # Use default camera
         else:
             self.cap = cv2.VideoCapture(self.video_path)
-        
+
         if not self.cap.isOpened():
             print(f"Error: Failed to open video source '{self.video_path}'.")
             self.running = False
