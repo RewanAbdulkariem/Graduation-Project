@@ -3,7 +3,6 @@ GUI.py
 """
 import sys
 import cv2
-import torch
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
@@ -167,7 +166,6 @@ class VideoThread(QThread):
         self.threshold = threshold
 
     def init_models(self):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model_map = {'Safety of workers': [YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'),
                                                 YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')],
             'Crowd Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'),
@@ -192,6 +190,7 @@ class VideoThread(QThread):
             if processed_frame is not None:
                 processed_frame = self.cvimage_to_label(processed_frame)
                 self.frame_signal.emit(processed_frame)
+            QThread.msleep(1)
 
         self.cap.release()
 

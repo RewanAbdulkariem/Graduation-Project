@@ -1,9 +1,16 @@
-import os
+import os, sys
 import cv2
 import cvzone
 import math
 import argparse
 from ultralytics import YOLO
+from time import time
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from email_safety import send_email_async
+
+# Global variable to track last email sent time
+last_email_sent_time = 0
 
 def parse_arguments():
     """Parse command-line arguments."""
@@ -24,6 +31,7 @@ def fireframe(frame, model, threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     results = model(frame, stream=True, verbose=False)
     classnames = ['fire']
+    fire_detected = False
     for info in results:
         boxes = info.boxes
         for box in boxes:
@@ -35,7 +43,13 @@ def fireframe(frame, model, threshold=50):
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
                 cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%', [x1 + 8, y1 + 100],
                                    scale=3, thickness=3, colorR=(0, 0, 0))
-    
+                fire_detected = True
+    # Send email if fire detected and not sent within the last 15 minutes
+    global last_email_sent_time
+    current_time = time()
+    if fire_detected and (current_time - last_email_sent_time) >= 900:  # 900 seconds = 15 minutes
+        send_email_async("WARNING: Fire detected!")
+        last_email_sent_time = current_time  # Update last email sent tim
     return frame
 
 def FirePredictor():
