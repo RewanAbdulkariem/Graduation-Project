@@ -18,6 +18,7 @@ from Crowd_Detection.tracker import Tracker
 from Defects_Detection.defect_detection import defectframe
 from Defects_Classification.defect_class import defectclassframe
 from ultralytics import YOLO
+from Serial import SerialThread
 
 class MainWindow(QMainWindow):
     """Main window class for the Object Detection and Barcode Reader application."""
@@ -36,11 +37,18 @@ class MainWindow(QMainWindow):
         self.video_thread = VideoThread()
         self.video_thread.frame_signal.connect(self.displayFrame)
 
+        self.serial_thread = SerialThread()
+        self.serial_thread.data_received.connect(self.update_gui)
+        self.serial_thread.start()
+
     def intialize_values(self):
         self.video_path = None
         self.selected_model = 'Safety of workers'
         self.tabIndex = 1
         self.threshold = 50
+
+        self.tempLCD.display(0)
+        self.humLCD.display(0)
 
         self.tabWidget.setCurrentIndex(self.tabIndex)
 
@@ -69,6 +77,11 @@ class MainWindow(QMainWindow):
         self.Sf_StopButton.clicked.connect(self.stopVideoProcessing)
         self.Sf_StartButton.clicked.connect(self.resumeVideoProcessing)
 
+    @Slot(int, int)
+    def update_gui(self, temperature, humidity):
+        self.tempLCD.display(temperature)
+        self.humLCD.display(humidity)
+
     def stopVideoProcessing(self):
         """Stop the video processing."""
         self.video_thread.pause()
@@ -79,7 +92,10 @@ class MainWindow(QMainWindow):
 
     def changethreshold(self):
         """Change the confidence threshold for the selected model."""
-        if self.tabIndex == 1:
+        if self.tabIndex == 0:
+            #self.serial_thread.start()
+            return
+        elif self.tabIndex == 1:
             if self.threshold != self.Sf_confBox.value():
                 self.threshold = self.Sf_confBox.value()
                 self.Sf_confSlider.setValue(self.threshold)
@@ -103,6 +119,8 @@ class MainWindow(QMainWindow):
 
     def decide_model(self):
         """Decide which model to use based on the current tab and dropdown selection."""
+        if self.tabIndex == 0:
+            return
         if self.tabIndex == 1:
             self.selected_model = self.Sf_modelBox.currentText()
         elif self.tabIndex == 2:
@@ -218,7 +236,7 @@ class VideoThread(QThread):
             return Barcodeframe(frame, self.model, self.threshold)
         elif self.selected_model == 'Safety of workers':
             frame = Safety_frame(frame, self.model[0], ['fall', 'Safty-Vest', 'Helmet', 'without_Helmet', 'without_Safty-Vest'], self.threshold)
-            frame = Safety_frame(frame, self.model[1], ['drowsy', 'awake', 'fainted'], self.threshold)
+            frame = Safety_frame(frame, self.model[1], ['Drowsy', 'Awake', 'Fainted'], self.threshold)
             return frame
         elif self.selected_model == 'Crowd Detection':
             return detect_and_track(frame, self.model, self.class_list, self.tracker)

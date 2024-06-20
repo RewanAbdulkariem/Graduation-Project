@@ -8,7 +8,7 @@ import argparse
 
 def ImagePredictor(image_path):
     # Load YOLO model
-    model_path = os.path.join('.', 'runs', 'detect', 'train', 'weights', 'last.pt')
+    model_path = os.path.join('.', 'last.pt')
     model = YOLO(model_path)
 
     # Set detection threshold
@@ -24,7 +24,7 @@ def ImagePredictor(image_path):
         x1, y1, x2, y2, score, class_id = result
         # Crop the detected region
         croped_img = img[int(y1)-50:int(y2)+50, int(x1)-50:int(x2)+50]
-        text = "Not Found"
+        text = " "
         try:
             # Decode barcode from the cropped image
             barcode = decode(croped_img)[0]
