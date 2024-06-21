@@ -35,9 +35,9 @@ cd Real-time-Performance-Safety-Monitoring
 1. Run the Main Application:
 
 ```bash
-python GUI.py
+python main.py
 ```
-- Ensure to edit paths in GUI.py file 
+- Ensure to edit paths 
 - Select the appropriate model and start video processing.
 - Use tabs to switch between functionalities (Safety Monitoring, Crowd Detection, Defect Detection, etc.).
 2. Serial Communication Setup:
