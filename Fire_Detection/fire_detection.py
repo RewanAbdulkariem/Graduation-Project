@@ -48,7 +48,7 @@ def fireframe(frame, model, threshold=50):
     global last_email_sent_time
     current_time = time()
     if fire_detected and (current_time - last_email_sent_time) >= 900:  # 900 seconds = 15 minutes
-        send_email_async("WARNING: Fire detected!")
+        send_email_async("WARNING: Fire detected!",frame)
         last_email_sent_time = current_time  # Update last email sent tim
     return frame
 

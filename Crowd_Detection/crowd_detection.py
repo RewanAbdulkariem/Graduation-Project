@@ -3,6 +3,13 @@ import argparse
 import pandas as pd
 from ultralytics import YOLO
 import cvzone
+import os, sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from email_safety import send_email_async
+from time import time
+
+last_email_time = 0
+email_interval = 60
 
 def parse_arguments():
     """Parse command-line arguments."""
@@ -28,6 +35,7 @@ def load_class_list(class_file_path):
 
 def detect_and_track(frame, model, class_list, tracker):
     """Detect objects in a frame and track them."""
+    global last_email_time, email_interval
     results = model.predict(frame)
     if not results:
         return frame
@@ -43,13 +51,18 @@ def detect_and_track(frame, model, class_list, tracker):
             detections.append([int(x1), int(y1), int(x2 - x1), int(y2 - y1)])
 
     bbox_id = tracker.update(detections)
+    person_count = len(bbox_id)
     for bbox in bbox_id:
         x, y, w, h, id = bbox
         cx, cy = int((x + x + w) / 2), int((y + y + h) / 2)
         cv2.circle(frame, (cx, cy), 4, (255, 0, 255), -1)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
         cvzone.putTextRect(frame, f'{id}', (x, y), 1, 2)
-
+    current_time = time()
+    if current_time - last_email_time >= email_interval:
+        if person_count > 20:  # Replace with your desired threshold
+            send_email_async(f'WARNING: A crowd of {person_count} people has been detected.', frame)
+            last_email_time = current_time
     return frame
 
 def CrowdDetector():

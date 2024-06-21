@@ -38,7 +38,7 @@ def Safety_frame(frame, model, classnames, threshold=50):
             confidence = box.conf[0]
             confidence = math.ceil(confidence * 100)
             Class = int(box.cls[0])
-            if len(classnames) < 4 and classnames[Class] == 'awake':
+            if len(classnames) < 4 and classnames[Class] == 'Awake':
                 pass
             elif classnames[Class] == 'Helmet' or classnames[Class] == 'Safty-Vest':
                 pass
@@ -46,13 +46,13 @@ def Safety_frame(frame, model, classnames, threshold=50):
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
-                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1 + 100],
-                                   scale=3, thickness=3, colorR=(0, 0, 0))
+                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1 + 80],
+                                   scale=2, thickness=3, colorR=(0, 0, 0))
                 current_detection = classnames[Class]
                 if current_detection != previous_detection:
                     current_time = time()
                     if current_time - last_email_time >= email_interval:
-                        send_email_async(f"WARNING: {classnames[Class]} detected with {confidence}% confidence!")
+                        send_email_async(f"WARNING: {classnames[Class]} detected with {confidence}% confidence!", frame)
                         last_email_time = current_time
                 previous_detection = current_detection
     return frame
@@ -65,8 +65,8 @@ def ObjectPredictor():
     helmet_vest_model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'
     drowsy_model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt'
     
-    helmet_vest_classnames =['fall', 'Safty-Vest', 'Helmet', 'without_Helmet', 'without_Safty-Vest']
-    drowsy_classnames = ['drowsy', 'awake', 'fainted']
+    helmet_vest_classnames =['Fall', 'Safty-Vest', 'Helmet', 'Without_Helmet', 'without_Safty-Vest']
+    drowsy_classnames = ['Drowsy', 'Awake', 'Fainted']
     
     helmet_vest_model = YOLO(helmet_vest_model_path)
     drowsy_model = YOLO(drowsy_model_path)

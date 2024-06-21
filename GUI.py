@@ -147,7 +147,8 @@ class MainWindow(QMainWindow):
     def displayFrame(self, image):
         """Display the processed video frame on the QLabel."""
         pixmap = QPixmap.fromImage(image)
+        scaled_pixmap = pixmap.scaled(self.Sf_label.size(), aspectRatioMode=True)
         if self.tabIndex == 1:
-            self.Sf_label.setPixmap(pixmap)
+            self.Sf_label.setPixmap(scaled_pixmap)
         if self.tabIndex == 2:
-            self.Pc_label.setPixmap(pixmap)
+            self.Pc_label.setPixmap(scaled_pixmap)

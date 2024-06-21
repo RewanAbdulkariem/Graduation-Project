@@ -31,7 +31,7 @@ def Awakeframe(frame, model, threshold=50):
     """Detect fire in a single frame and annotate with bounding boxes."""
     global previous_detection, last_email_time
     results = model(frame, stream=True, verbose=False)
-    classnames = ['drowsy', 'awake', 'fainted']
+    classnames = ['Drowsy', 'Awake', 'Fainted']
 
     for info in results:
         boxes = info.boxes
@@ -46,10 +46,10 @@ def Awakeframe(frame, model, threshold=50):
                 cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%', [x1 + 8, y1 + 100],
                                    scale=1.5, thickness=2)
                 current_detection = classnames[Class]
-                if current_detection != previous_detection and current_detection != 'awake':
+                if current_detection != previous_detection and current_detection != 'Awake':
                     current_time = time.time()
                     if current_time - last_email_time >= email_interval:
-                        send_email_async(f"WARNING: {classnames[Class]} detected with {confidence}% confidence!")
+                        send_email_async(f"WARNING: {classnames[Class]} detected with {confidence}% confidence!", frame)
                         last_email_time = current_time
                 previous_detection = current_detection
     return frame
