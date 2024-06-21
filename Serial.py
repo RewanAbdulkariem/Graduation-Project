@@ -16,7 +16,11 @@ class SerialThread(QThread):
 
             while self.running:
                 if self.serial_port.in_waiting > 0:
-                    line = self.serial_port.readline().decode().strip()
+                    try:
+                        line = self.serial_port.readline().decode().strip()
+                    except UnicodeDecodeError as e:
+                        print(f"Error decoding serial data: {e}")
+                        continue
                     # Assuming data format is "temperature_value humidity_value"
                     data = line.split()
                     if len(data) == 2:
