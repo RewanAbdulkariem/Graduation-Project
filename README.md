@@ -10,11 +10,11 @@ This project aims to provide real-time monitoring solutions for performance and 
 - Fire Detection: Early detection of fire hazards using image processing techniques.
 
 ## Team Members
-Reem Sabry
-Habiba Samir
-Nada Elsayed
-Toqa Ezzatly
-Alaa []
+- __Reem Sabry__
+- __Habiba Samir__
+- __Nada Elsayed__
+- __Toqa Ezzatly__
+- __Alaa__ []
 
 ## Dependencies
 - Python 3
