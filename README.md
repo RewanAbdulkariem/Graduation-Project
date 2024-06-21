@@ -50,3 +50,28 @@ python GUI.py
 - The application includes functionality to send email notifications when safety violations are detected.
 - Ensure email configuration is correctly set up in email_safety.py for sending notifications.
 - Notifications are sent for safety violations such as improper safety gear usage and drowsiness detection.
+
+## Desktop Application
+
+#### Purpose
+The desktop application serves as the central hub for integrating and managing the various monitoring functionalities deployed in large institutional environments. It provides real-time insights and alerts related to safety, quality inspection, and environmental conditions.
+
+#### Functionality
+The application receives and processes data from sensors, cameras, and embedded systems deployed throughout the institution. It aggregates this data to provide comprehensive monitoring and management capabilities.
+
+#### Features
+- **Real-time Monitoring:** Displays live feeds and data streams from sensors and cameras.
+- **Alerting System:** Notifies administrators instantly upon detecting safety hazards or critical incidents.
+- **Data Visualization:** Presents graphical representations and dashboards for intuitive data analysis.
+- **User Interface:** Designed with user-friendly controls and interactive elements for ease of use.
+
+#### Technologies Used
+- **Programming Language:** Python
+- **Framework:** PyQt5 for GUI development
+- **Integration:** Communicates with embedded systems via serial communication protocols.
+
+#### Deployment and Maintenance
+The application is deployed on desktop computers running Windows 10. It requires minimal system resources and is maintained through periodic updates and bug fixes.
+
+#### Conclusion
+The desktop application plays a pivotal role in our project by providing a unified platform for monitoring and ensuring the safety and performance of personnel and assets within large institutional environments.
