@@ -58,6 +58,12 @@ def detect_and_track(frame, model, class_list, tracker):
         cv2.circle(frame, (cx, cy), 4, (255, 0, 255), -1)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
         cvzone.putTextRect(frame, f'{id}', (x, y), 1, 2)
+
+    text_size, _ = cv2.getTextSize(f'Persons Detected: {person_count}', cv2.FONT_HERSHEY_SIMPLEX, 1, 3)
+    text_w, text_h = text_size
+    cv2.rectangle(frame, (0, 30 - text_h - 5), (10 + text_w, 30 + 5), (0,0,0), -1)
+    cv2.putText(frame, f'Persons Detected: {person_count}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3, cv2.LINE_AA)
+
     current_time = time()
     if current_time - last_email_time >= email_interval:
         if person_count > 20:  # Replace with your desired threshold
