@@ -1,13 +1,14 @@
 """
 GUI.py
 """
-
+from time import time
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog,  QMessageBox
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import pyqtSlot as Slot, Qt
 
 from Serial import SerialThread
+from email_safety import send_email_async
 from VideoProcessing import VideoThread
 
 class MainWindow(QMainWindow):
@@ -36,6 +37,8 @@ class MainWindow(QMainWindow):
         self.selected_model = 'Safety of workers'
         self.tabIndex = 1
         self.threshold = 50
+        self.last_email_time = 0
+        self.email_interval = 60
 
         self.tempLCD.display(0)
         self.humLCD.display(0)
@@ -67,10 +70,45 @@ class MainWindow(QMainWindow):
         self.Sf_StopButton.clicked.connect(self.stopVideoProcessing)
         self.Sf_StartButton.clicked.connect(self.resumeVideoProcessing)
 
-    @Slot(int, int)
-    def update_gui(self, temperature, humidity):
+    @Slot(float, float, float, float, float, float,)
+    def update_gui(self, temperature, humidity, LPG, CH4, CO, Smoke):
         self.tempLCD.display(temperature)
         self.humLCD.display(humidity)
+        self.LPGLCD.display(LPG)
+        self.CH4LCD.display(CH4)
+        self.COLCD.display(CO)
+        self.SmokeLCD.display(Smoke)
+        current_time = time()
+        if current_time - self.last_email_time >= self.email_interval:
+            self.last_email_time = current_time
+            # Check if temperature exceeds 38 degrees
+            if temperature > 38:
+                self.show_warning("High Temperature Warning", f"Temperature has exceeded safe levels: {temperature} °C")
+                send_email_async(f"Temperature has exceeded safe levels: {temperature} °C", None)
+
+            # Check if CO exceeds 120 ppm
+            if CO > 120:
+                self.show_warning("High CO Warning", f"CO levels have exceeded safe levels: {CO} ppm")
+                send_email_async(f"CO levels have exceeded safe levels: {CO} ppm", None)
+
+            # Check if CH4 exceeds 1000 ppm
+            if CH4 > 1000:
+                self.show_warning("High CH4 Warning", f"CH4 levels have exceeded safe levels: {CH4} ppm")
+                send_email_async(f"CH4 levels have exceeded safe levels: {CH4} ppm", None)
+
+            # Check if Smoke exceeds 500 ppm
+            if Smoke > 500:
+                self.show_warning("High Smoke Warning", f"Smoke levels have exceeded safe levels: {Smoke} ppm")
+                send_email_async( f"Smoke levels have exceeded safe levels: {Smoke} ppm", None)
+
+    def show_warning(self, title, message):
+        """Show a warning message box."""
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
 
     def stopVideoProcessing(self):
         """Stop the video processing."""

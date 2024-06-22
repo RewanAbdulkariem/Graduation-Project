@@ -7,10 +7,11 @@ from cv2 import imencode
 
 def send_email(detection_info, frame):
     # Convert the frame (OpenCV image) to a JPEG image
-    ret, buffer = imencode('.jpg', frame)
-    if not ret:
-        print("Error: Could not convert frame to JPEG")
-        return
+    if frame != None:
+        ret, buffer = imencode('.jpg', frame)
+        if not ret:
+            print("Error: Could not convert frame to JPEG")
+            return
 
     passw = "hnky vand dubq rbnb"
     from_email = "rewan.khaled21@gmail.com"
@@ -25,10 +26,10 @@ def send_email(detection_info, frame):
     # Attach the body text
     text = MIMEText(detection_info, "plain")
     msg.attach(text)
-
-    # Attach the image
-    image = MIMEImage(buffer.tobytes(), name="frame.jpg")
-    msg.attach(image)
+    if frame != None:
+        # Attach the image
+        image = MIMEImage(buffer.tobytes(), name="frame.jpg")
+        msg.attach(image)
 
     # Send the email
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
