@@ -5,7 +5,7 @@ GUI.py
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore import pyqtSlot as Slot
+from PyQt5.QtCore import pyqtSlot as Slot, Qt
 
 from Serial import SerialThread
 from VideoProcessing import VideoThread
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
     def openFile(self):
         """Open a video file using a file dialog."""
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Video File", "", "Video Files (*.mp4 *.avi *.mkv)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open Video File", "", "Video Files (*.mp4 *.avi *.mkv, *.jpg , *.png, *.jpeg)", options=options)
         if fileName:
             self.video_path = fileName
             self.start_video_processing()
@@ -147,7 +147,7 @@ class MainWindow(QMainWindow):
     def displayFrame(self, image):
         """Display the processed video frame on the QLabel."""
         pixmap = QPixmap.fromImage(image)
-        scaled_pixmap = pixmap.scaled(self.Sf_label.size(), aspectRatioMode=True)
+        scaled_pixmap = pixmap.scaled(1280, 720, transformMode=Qt.SmoothTransformation)
         if self.tabIndex == 1:
             self.Sf_label.setPixmap(scaled_pixmap)
         if self.tabIndex == 2:

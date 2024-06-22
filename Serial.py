@@ -9,11 +9,13 @@ class SerialThread(QThread):
         self.baud_rate = 115200
         self.serial_port = None
         self.running = True
-
-    def run(self):
         try:
             self.serial_port = serial.Serial(self.port, self.baud_rate)
+        except serial.SerialException as e:
+            self.running = False
+            print(f"Serial communication error: {e}")
 
+    def run(self):
             while self.running:
                 if self.serial_port.in_waiting > 0:
                     try:
@@ -30,8 +32,7 @@ class SerialThread(QThread):
                             self.data_received.emit(temperature, humidity)
                         except ValueError as e:
                             print(f"Error converting data to integers: {e}")
-        except serial.SerialException as e:
-            print(f"Serial communication error: {e}")
+        
 
     def stop(self):
         self.running = False

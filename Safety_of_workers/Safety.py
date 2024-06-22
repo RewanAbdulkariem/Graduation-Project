@@ -46,8 +46,8 @@ def Safety_frame(frame, model, classnames, threshold=50):
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
-                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1 + 80],
-                                   scale=2, thickness=3, colorR=(0, 0, 0))
+                cvzone.putTextRect(frame, f'{classnames[Class]} {confidence}%',[x1 + 8, y1],
+                                   scale=2, thickness=3, colorR=(0, 0, 255))
                 current_detection = classnames[Class]
                 if current_detection != previous_detection:
                     current_time = time()
