@@ -68,6 +68,7 @@ void loop() {
   }
 
   // Check CO concentration threshold
+  MQ4.setA(200000000000000); MQ4.setB(-19.05); // Configure the equation to to calculate CH4 concentration
   float CO = MQ4.readSensor();
   if (CO > CO_THRESHOLD) {
     warningMessage += "High CO concentration detected! ";
@@ -109,12 +110,12 @@ void loop() {
   // Prepare message to send over LoRa
   String message = "Temperature: " + String(temperature) + "°C, Humidity: " + String(humidity) + "% | Gas Readings: ";
   message += "LPG=" + String(LPG) + " ppm, CH4=" + String(CH4) + " ppm, CO=" + String(CO) + " ppm, Alcohol=" + String(Alcohol) + " ppm, Smoke=" + String(Smoke) + " ppm";
-
+/*
   // Append warning message if conditions are not normal
   if (!normalConditions) {
     message += " | WARNING: " + warningMessage;
   }
-
+*/
   // Print message to Serial Monitor
   Serial.println(message);
 

@@ -1,6 +1,6 @@
 import cv2
 from ultralytics import YOLO
-
+import os
 def defectframe(frame, model):
     results = model(frame)
     
@@ -8,7 +8,13 @@ def defectframe(frame, model):
     return annotated_frame
 
 if __name__ == "__main__":
-    model = YOLO(r"C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Detection\defectdetection.pt")
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Navigate to the desired directory structure
+    model_path = os.path.join(script_dir, 'defectdetection.pt')
+
+    model = YOLO(model_path)
 
     cap = cv2.VideoCapture(0)
 

@@ -57,8 +57,12 @@ def FirePredictor():
     args = parse_arguments()
     video_path = args.get("video", None)
 
-    model_path = r'C:\Users\rewan\Downloads\GP\B2\Fire_Detection\fire.pt'
-    
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Navigate to the desired directory structure
+    model_path = os.path.join(script_dir, 'fire.pt')
+
     model = YOLO(model_path)
     cap = initialize_video_capture(video_path)
 

@@ -7,7 +7,7 @@ from cv2 import imencode
 
 def send_email(detection_info, frame):
     # Convert the frame (OpenCV image) to a JPEG image
-    if frame != None:
+    if frame.any != None:
         ret, buffer = imencode('.jpg', frame)
         if not ret:
             print("Error: Could not convert frame to JPEG")
@@ -26,7 +26,7 @@ def send_email(detection_info, frame):
     # Attach the body text
     text = MIMEText(detection_info, "plain")
     msg.attach(text)
-    if frame != None:
+    if frame.any != None:
         # Attach the image
         image = MIMEImage(buffer.tobytes(), name="frame.jpg")
         msg.attach(image)

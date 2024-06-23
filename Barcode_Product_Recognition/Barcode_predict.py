@@ -52,7 +52,9 @@ def VideoPredictor():
     args = parse_arguments()
     video_path = args.get("video", None)
     
-    model_path = r"C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    model_path = os.path.join(script_dir,"last.pt")
     model = YOLO(model_path)
     
     cap = initialize_video_capture(video_path)

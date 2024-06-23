@@ -158,7 +158,7 @@ class MainWindow(QMainWindow):
     def openFile(self):
         """Open a video file using a file dialog."""
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Video File", "", "Video Files (*.mp4 *.avi *.mkv, *.jpg , *.png, *.jpeg)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open Video File", "", "Video Files (*.mp4 *.avi *.mkv *.jpg *.png *.jpeg)", options=options)
         if fileName:
             self.video_path = fileName
             self.start_video_processing()

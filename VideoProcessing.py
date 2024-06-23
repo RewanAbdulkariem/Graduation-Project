@@ -3,7 +3,7 @@ from PyQt5.QtCore import QThread, pyqtSignal as Signal, pyqtSlot as Slot, QThrea
 from PyQt5.QtGui import QImage
 from ultralytics import YOLO
 import cv2
-
+import os
 
 class VideoThread(QThread):
     """Thread for video processing."""
@@ -16,16 +16,22 @@ class VideoThread(QThread):
         self.model = None
         self.running = True
         self.paused = False
-        self.model_map = {
-            'Safety of workers': [YOLO( r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'),
-                                        YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt')],
-            'Crowd Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'),
-            'Defect Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Detection\defectdetection.pt'),
-            'Defects Classifictaion': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Classification\defectClassification.pt'),
-            'Barcode Recognition': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Barcode_Product_Recognition\last.pt'),
-            'Fire Detection': YOLO(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Fire_Detection\fire.pt')
-    }
+        self.model_map = self.initialize_models()
         self.prediction_thread = None
+
+    def initialize_models(self):
+        """Initialize and load YOLO models."""
+        base_path = os.path.dirname(os.path.abspath(__file__))  # Adjust base path dynamically
+        models = {
+            'Safety of workers': [YOLO(os.path.join(base_path, 'VestHelmet_Detection/best.pt')),
+                                  YOLO(os.path.join(base_path, 'Awakeness_Detection/best.pt'))],
+            'Crowd Detection': YOLO(os.path.join(base_path, 'Crowd_Detection/yolov8s.pt')),
+            'Defect Detection': YOLO(os.path.join(base_path, 'Defects_Detection/defectdetection.pt')),
+            'Defects Classifictaion': YOLO(os.path.join(base_path, 'Defects_Classification', 'defectClassification.pt')),
+            'Barcode Recognition': YOLO(os.path.join(base_path, 'Barcode_Product_Recognition/last.pt')),
+            'Fire Detection': YOLO(os.path.join(base_path, 'Fire_Detection/fire.pt'))
+        }
+        return models
     def update_parameters(self, video_path, selected_model, threshold):
         """Update the thread parameters."""
         self.video_path = video_path

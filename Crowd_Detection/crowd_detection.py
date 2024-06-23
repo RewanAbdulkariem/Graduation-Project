@@ -76,8 +76,14 @@ def CrowdDetector():
     args = parse_arguments()
     video_path = args.get("video", None)
 
-    class_file_path = r"C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt"
-    model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\yolov8s.pt'
+
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Navigate to the desired directory structure
+    model_path = os.path.join(script_dir, 'yolov8s.pt')
+
+    class_file_path =os.path.join(script_dir, 'coco.txt')
 
     class_list = load_class_list(class_file_path)
     model = YOLO(model_path)

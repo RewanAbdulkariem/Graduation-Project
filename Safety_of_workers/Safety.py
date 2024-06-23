@@ -62,9 +62,17 @@ def ObjectPredictor():
     args = parse_arguments()
     video_path = args.get("video", None)
 
-    helmet_vest_model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\VestHelmet_Detection\best.pt'
-    drowsy_model_path = r'C:\Users\rewan\Downloads\GP\Graduation-Project\Awakeness_Detection\best.pt'
-    
+
+# Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Navigate to the parent directory (Graduation-Project)
+    parent_dir = os.path.dirname(script_dir)
+
+    # Construct the model paths relative to the parent directory
+    helmet_vest_model_path = os.path.join(parent_dir, 'VestHelmet_Detection', 'best.pt')
+    drowsy_model_path = os.path.join(parent_dir, 'Awakeness_Detection', 'best.pt')
+
     helmet_vest_classnames =['Fall', 'Safty-Vest', 'Helmet', 'Without_Helmet', 'without_Safty-Vest']
     drowsy_classnames = ['Drowsy', 'Awake', 'Fainted']
     

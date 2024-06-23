@@ -5,7 +5,7 @@ class SerialThread(QThread):
     data_received = pyqtSignal(float, float, float, float, float, float)  # Define a signal for passing data to GUI
     def __init__(self):
         super().__init__()
-        self.port = 'COM8'
+        self.port = 'COM6'
         self.baud_rate = 9600
         self.serial_port = None
         self.running = True
@@ -19,8 +19,9 @@ class SerialThread(QThread):
         while self.running:
             if self.serial_port.in_waiting > 0:
                 try:
-                    line = self.serial_port.readline().decode().strip()
+                    line = self.serial_port.readline()
                     print(line)
+                    line = line.decode().strip()
                 except UnicodeDecodeError as e:
                     print(f"Error decoding serial data: {e}")
                     continue

@@ -1,5 +1,6 @@
 import cv2
 import math
+import os
 from ultralytics import YOLO
 
 def defectclassframe(frame, model, threshold=50):
@@ -20,7 +21,10 @@ def defectclassframe(frame, model, threshold=50):
     return frame
 
 if __name__ == "__main__":
-    model = YOLO(r"C:\Users\rewan\Downloads\GP\Graduation-Project\Defects_Classification\defectClassification.pt")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(script_dir, 'defectClassification.pt')
+
+    model = YOLO(model_path)
 
     cap = cv2.VideoCapture(0)
 

@@ -7,6 +7,7 @@ from Crowd_Detection.tracker import Tracker
 
 from Defects_Detection.defect_detection import defectframe
 from Defects_Classification.defect_class import defectclassframe
+import os
 
 class PredictionThread(QThread):
     prediction_complete = pyqtSignal(object)
@@ -17,8 +18,17 @@ class PredictionThread(QThread):
         self.selected_model = selected_model
         self.frame = frame
         self.threshold = threshold
-        self.class_list = load_class_list(r'C:\Users\rewan\Downloads\GP\Graduation-Project\Crowd_Detection\coco.txt')
-        self.tracker = Tracker()
+        self.initialize_resources()
+
+    def initialize_resources(self):
+        """Initialize resources like class lists and trackers based on the selected model."""
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        if self.selected_model == 'Crowd Detection':
+            try:
+                self.class_list = load_class_list(os.path.join(base_path, 'Crowd_Detection', 'coco.txt'))
+                self.tracker = Tracker()
+            except Exception as e:
+                print(f"Error initializing resources for Crowd Detection: {e}")
 
     def run(self):
         # Perform the prediction based on the selected model
